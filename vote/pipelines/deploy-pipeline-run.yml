@@ -6,7 +6,7 @@ metadata:
 spec:
   serviceAccount: pipeline
   pipelineRef:
-    name: mapit-deploy-pipeline
+    name: voting-deploy-pipeline
   trigger:
     type: manual
   resources:

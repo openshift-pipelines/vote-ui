@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
-  name: mapit-deploy-pipeline
+  name: voting-deploy-pipeline
 spec:
   resources:
   - name: samples-git
