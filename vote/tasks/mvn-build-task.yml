@@ -22,5 +22,6 @@ spec:
     command:
     - /usr/bin/mvn
     args:
-    - -f ${inputs.params.folder}
+    - --file=${inputs.params.folder}
+    - dependency:resolve
     - verify

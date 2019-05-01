@@ -8,12 +8,17 @@ spec:
     - name: workspace-git
       targetPath: /
       type: git
+    params:
+    - name: folder
+      description: Path to build
+      default: .
   steps:
   - name: build
     image: maven:3.6.0-jdk-8-slim
     command:
     - /usr/bin/mvn
     args:
+    - --file=${inputs.params.folder}
     - package
     - -DskipTests
   - name: test
@@ -21,4 +26,5 @@ spec:
     command:
     - /usr/bin/mvn
     args:
+    - --file=${inputs.params.folder}
     - verify

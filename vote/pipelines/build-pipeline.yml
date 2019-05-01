@@ -19,7 +19,7 @@ spec:
       name: mvn-build
     params:
     - name: folder
-      value: ./vote/worker
+      value: /workspace/vote/worker/
     resources:
       inputs:
       - name: workspace-git
@@ -34,7 +34,7 @@ spec:
     - name: dockerfile
       value: Dockerfile
     - name: contextFolder
-      value: ./vote/worker
+      value: ./vote/worker/
     - name: verifyTLS
       value: "false"
     resources:
@@ -50,7 +50,7 @@ spec:
       name: buildah
     params:
     - name: contextFolder
-      value: ./vote/vote
+      value: ./vote/vote/
     - name: verifyTLS
       value: "false"
     resources:
@@ -65,7 +65,7 @@ spec:
       name: buildah
     params:
     - name: contextFolder
-      value: ./vote/result
+      value: ./vote/result/
     - name: verifyTLS
       value: "false"
     resources:
