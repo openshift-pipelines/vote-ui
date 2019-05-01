@@ -13,6 +13,16 @@ spec:
   - name: voting-result-image
     type: image
   tasks:
+  - name: create-apps
+    taskRef:
+      name: openshift-cli-apply
+    params:
+    - name: yamls
+      value: /workspace/vote/apps
+    resources:
+      inputs:
+      - name: workspace-git
+        resource: samples-git
   - name: build-worker
     taskRef:
       name: mvn-build
@@ -107,6 +117,7 @@ spec:
       value: voting-worker
     runAfter:
       - build-worker-image
+      - create-apps
   - name: deploy-vote
     taskRef:
       name: openshift-cli-rollout
@@ -115,6 +126,7 @@ spec:
       value: voting-vote
     runAfter:
       - build-vote-image
+      - create-apps
   - name: deploy-result
     taskRef:
       name: openshift-cli-rollout
@@ -123,3 +135,4 @@ spec:
       value: voting-result
     runAfter:
       - build-result-image
+      - create-apps

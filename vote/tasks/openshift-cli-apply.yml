@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: openshift-cli-apply
+spec:
+  inputs:
+    resources:
+    - name: workspace-git
+      targetPath: /
+      type: git
+    params:
+    - name: yamls
+      description: the yaml(s) to apply
+  steps:
+  - name: oc
+    image: quay.io/openshift-pipeline/openshift-cli
+    command: ["/usr/local/bin/oc"]
+    args:
+    - apply
+    - -f
+    - ${inputs.params.yamls}

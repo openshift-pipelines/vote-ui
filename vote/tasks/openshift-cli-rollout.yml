@@ -8,7 +8,7 @@ spec:
     - name: app
       description: Name of the app to rollout
   steps:
-  - name: oc
+  - name: rollout
     image: quay.io/openshift-pipeline/openshift-cli
     command: ["/usr/local/bin/oc"]
     args:

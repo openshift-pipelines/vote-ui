@@ -5,7 +5,6 @@ A simple distributed application running across multiple containers.
 ## Apps
 
 ```
-oc create -f apps
 oc new-app -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=postgres -e POSTGRESQL_DATABASE=voting postgresql
 oc new-app redis
 ```
