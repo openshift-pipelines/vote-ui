@@ -26,7 +26,7 @@ spec:
       outputs:
       - name: workspace-git
         resource: samples-git
-  - name: test-app
+  - name: test-worker
     taskRef:
       name: mvn-test
     params:
@@ -37,7 +37,7 @@ spec:
       - name: workspace-git
         resource: samples-git
         from: [build-worker]
-  - name: analyse-code
+  - name: analyse-code-worker
     taskRef:
       name: static-analysis
     params:
@@ -66,6 +66,9 @@ spec:
       outputs:
       - name: image
         resource: voting-worker-image
+    runAfter:
+      - analyse-code-worker
+      - test-worker
   - name: build-vote-image
     taskRef:
       name: buildah
@@ -99,15 +102,24 @@ spec:
   - name: deploy-worker
     taskRef:
       name: openshift-cli-rollout
+    params:
+    - name: app
+      value: voting-worker
     runAfter:
       - build-worker-image
   - name: deploy-vote
     taskRef:
       name: openshift-cli-rollout
+    params:
+    - name: app
+      value: voting-vote
     runAfter:
       - build-vote-image
   - name: deploy-result
     taskRef:
       name: openshift-cli-rollout
+    params:
+    - name: app
+      value: voting-result
     runAfter:
       - build-result-image
