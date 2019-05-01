@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineRun
 metadata:
-  name: voting-deploy-pipelinerun-1
+  generateName: "voting-pipelinerun-"
 spec:
   serviceAccount: pipeline
   pipelineRef:
