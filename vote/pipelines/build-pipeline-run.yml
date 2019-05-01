@@ -1,0 +1,24 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  name: voting-build-pipelinerun-1
+spec:
+  serviceAccount: pipeline
+  pipelineRef:
+    name: voting-build-pipeline
+  trigger:
+    type: manual
+  resources:
+  - name: samples-git
+    resourceRef:
+      name: samples-git
+  - name: voting-worker-image
+    resourceRef:
+      name: voting-worker-image
+  - name: voting-vote-image
+    resourceRef:
+      name: voting-vote-image
+  - name: voting-result-image
+    resourceRef:
+      name: voting-result-image
