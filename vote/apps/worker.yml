@@ -1,0 +1,47 @@
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: voting-worker
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: voting-worker
+  name: voting-worker
+spec:
+  replicas: 1
+  selector:
+    app: voting-worker
+    deploymentconfig: voting-worker
+  strategy:
+    activeDeadlineSeconds: 21600
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: voting-worker
+        deploymentconfig: voting-worker
+    spec:
+      containers:
+      - image: ' '
+        imagePullPolicy: Always
+        name: voting-worker
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      containerNames:
+      - voting-worker
+      from:
+        kind: ImageStreamTag
+        name: voting-worker:latest
+    type: ImageChange

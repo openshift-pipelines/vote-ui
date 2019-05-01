@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineRun
 metadata:
-  name: mapit-deploy-pipelinerun-1
+  name: voting-deploy-pipelinerun-1
 spec:
   serviceAccount: pipeline
   pipelineRef:
@@ -10,9 +10,15 @@ spec:
   trigger:
     type: manual
   resources:
-  - name: mapit-git
+  - name: samples-git
     resourceRef:
-      name: mapit-git
-  - name: mapit-image
+      name: samples-git
+  - name: voting-worker-image
     resourceRef:
-      name: mapit-image
+      name: voting-worker-image
+  - name: voting-vote-image
+    resourceRef:
+      name: voting-vote-image
+  - name: voting-result-image
+    resourceRef:
+      name: voting-result-image

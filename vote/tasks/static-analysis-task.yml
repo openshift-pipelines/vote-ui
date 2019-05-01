@@ -8,6 +8,10 @@ spec:
     - name: workspace-git
       targetPath: /
       type: git
+    params:
+    - name: folder
+      description: Path to build
+      default: .
   steps:
     - name: pmd
       image: ubuntu

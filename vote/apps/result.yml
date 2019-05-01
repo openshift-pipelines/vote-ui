@@ -1,0 +1,81 @@
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: voting-result
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: voting-result
+  name: voting-result
+spec:
+  replicas: 1
+  selector:
+    app: voting-result
+    deploymentconfig: voting-result
+  strategy:
+    activeDeadlineSeconds: 21600
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: voting-result
+        deploymentconfig: voting-result
+    spec:
+      containers:
+      - image: ' '
+        imagePullPolicy: Always
+        name: voting-result
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      containerNames:
+      - voting-result
+      from:
+        kind: ImageStreamTag
+        name: voting-result:latest
+    type: ImageChange
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: voting-result
+  name: voting-result
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: voting-result
+    deploymentconfig: voting-result
+  type: ClusterIP
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: voting-result
+  name: result
+spec:
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: voting-result
+    weight: 100

@@ -1,76 +1,113 @@
----
-apiVersion: tekton.dev/v1alpha1
-kind: Task
-metadata:
-  name: openshift-cli-deploy-mapit
-spec:
-  steps:
-  - name: oc
-    image: quay.io/openshift-pipeline/openshift-cli
-    command: ["/usr/local/bin/oc"]
-    args:
-    - rollout
-    - latest
-    - mapit-spring
----
 apiVersion: tekton.dev/v1alpha1
 kind: Pipeline
 metadata:
   name: mapit-deploy-pipeline
 spec:
   resources:
-  - name: mapit-git
+  - name: samples-git
     type: git
-  - name: mapit-image
+  - name: voting-vote-image
+    type: image
+  - name: voting-worker-image
+    type: image
+  - name: voting-result-image
     type: image
   tasks:
-  - name: build-app
+  - name: build-worker
     taskRef:
       name: mvn-build
+    params:
+    - name: folder
+      value: /workspace/vote/worker/
     resources:
       inputs:
       - name: workspace-git
-        resource: mapit-git
+        resource: samples-git
       outputs:
       - name: workspace-git
-        resource: mapit-git
+        resource: samples-git
   - name: test-app
     taskRef:
       name: mvn-test
+    params:
+    - name: folder
+      value: /workspace/vote/worker/
     resources:
       inputs:
       - name: workspace-git
-        resource: mapit-git
-        from: [build-app]
+        resource: samples-git
+        from: [build-worker]
   - name: analyse-code
     taskRef:
       name: static-analysis
+    params:
+    - name: folder
+      value: /workspace/vote/worker/
     resources:
       inputs:
       - name: workspace-git
-        resource: mapit-git
-        from: [build-app]
-  - name: build-image
+        resource: samples-git
+        from: [build-worker]
+  - name: build-worker-image
     taskRef:
       name: buildah
-    runAfter:
-      - test-app
-      - analyse-code
     params:
     - name: dockerfile
-      value: Dockerfile.openjdk
+      value: Dockerfile
+    - name: contextFolder
+      value: ./vote/worker/
     - name: verifyTLS
       value: "false"
     resources:
       inputs:
       - name: workspace-git
-        resource: mapit-git
-        from: [build-app]
+        resource: samples-git
+        from: [build-worker]
       outputs:
       - name: image
-        resource: mapit-image
-  - name: deploy
+        resource: voting-worker-image
+  - name: build-vote-image
     taskRef:
-      name: openshift-cli-deploy-mapit
+      name: buildah
+    params:
+    - name: contextFolder
+      value: ./vote/vote/
+    - name: verifyTLS
+      value: "false"
+    resources:
+      inputs:
+      - name: workspace-git
+        resource: samples-git
+      outputs:
+      - name: image
+        resource: voting-vote-image
+  - name: build-result-image
+    taskRef:
+      name: buildah
+    params:
+    - name: contextFolder
+      value: ./vote/result/
+    - name: verifyTLS
+      value: "false"
+    resources:
+      inputs:
+      - name: workspace-git
+        resource: samples-git
+      outputs:
+      - name: image
+        resource: voting-result-image
+  - name: deploy-worker
+    taskRef:
+      name: openshift-cli-rollout
     runAfter:
-      - build-image
+      - build-worker-image
+  - name: deploy-vote
+    taskRef:
+      name: openshift-cli-rollout
+    runAfter:
+      - build-vote-image
+  - name: deploy-result
+    taskRef:
+      name: openshift-cli-rollout
+    runAfter:
+      - build-result-image
