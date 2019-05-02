@@ -2,6 +2,16 @@
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
+  labels:
+    app: voting-vote
+    app.kubernetes.io/part-of: elections
+    app.kubernetes.io/name: python
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: voting-vote
+    app.kubernetes.io/version: "1.0"
+  annotations:
+    app.openshift.io/vcs-uri: "git@github.com:redhat-developer/topology-example.git"
+    app.openshift.io/vcs-ref: "5207bbab97030890f2977ac317e02c2399af45a1"
   name: voting-vote
 ---
 apiVersion: apps.openshift.io/v1
@@ -9,8 +19,14 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: voting-vote
+    app.kubernetes.io/part-of: elections
+    app.kubernetes.io/name: python
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: voting-vote
+    app.kubernetes.io/version: "1.0"
   annotations:
-    app.openshift.io/connects-to: ["redis"]
+    app.openshift.io/vcs-uri: "git@github.com:redhat-developer/topology-example.git"
+    app.openshift.io/vcs-ref: "5207bbab97030890f2977ac317e02c2399af45a1"
   name: voting-vote
 spec:
   replicas: 1
@@ -56,6 +72,14 @@ kind: Service
 metadata:
   labels:
     app: voting-vote
+    app.kubernetes.io/part-of: elections
+    app.kubernetes.io/name: python
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: voting-vote
+    app.kubernetes.io/version: "1.0"
+  annotations:
+    app.openshift.io/vcs-uri: "git@github.com:redhat-developer/topology-example.git"
+    app.openshift.io/vcs-ref: "5207bbab97030890f2977ac317e02c2399af45a1"
   name: voting-vote
 spec:
   ports:
@@ -73,7 +97,15 @@ kind: Route
 metadata:
   labels:
     app: voting-vote
-  name: vote
+    app.kubernetes.io/part-of: elections
+    app.kubernetes.io/name: python
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: voting-vote
+    app.kubernetes.io/version: "1.0"
+  annotations:
+    app.openshift.io/vcs-uri: "git@github.com:redhat-developer/topology-example.git"
+    app.openshift.io/vcs-ref: "5207bbab97030890f2977ac317e02c2399af45a1"
+  app: voting-vote
 spec:
   port:
     targetPort: 8080-tcp
