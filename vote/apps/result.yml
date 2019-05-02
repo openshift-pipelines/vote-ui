@@ -9,6 +9,8 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: voting-result
+  annotations:
+    app.openshift.io/connects-to: ["postgresql"]
   name: voting-result
 spec:
   replicas: 1

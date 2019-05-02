@@ -9,6 +9,8 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: voting-worker
+  annotations:
+    app.openshift.io/connects-to: '["postgresql", "redis]'
   name: voting-worker
 spec:
   replicas: 1

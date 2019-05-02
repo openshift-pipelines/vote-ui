@@ -9,6 +9,8 @@ kind: DeploymentConfig
 metadata:
   labels:
     app: voting-vote
+  annotations:
+    app.openshift.io/connects-to: ["redis"]
   name: voting-vote
 spec:
   replicas: 1
