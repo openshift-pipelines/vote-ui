@@ -2,11 +2,11 @@
 
 A simple distributed application running across multiple containers.
 
-## Apps
+## Infra
 
-```
-oc new-app -e POSTGRESQL_USER=postgres -e POSTGRESQL_PASSWORD=postgres -e POSTGRESQL_DATABASE=voting postgresql
-oc new-app redis
+```bash
+# creates postgresql and redis
+oc create -f infra/
 ```
 
 ## Build pipeline

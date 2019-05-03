@@ -105,6 +105,7 @@ metadata:
   annotations:
     app.openshift.io/vcs-uri: "git@github.com:vdemeester/openshift-pipelines-samples.git"
     app.openshift.io/vcs-ref: "master"
+    app.openshift.io/connects-to: '["postgresql"]'
   name: voting-result
 spec:
   port:

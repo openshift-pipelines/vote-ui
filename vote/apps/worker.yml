@@ -12,7 +12,6 @@ metadata:
   annotations:
     app.openshift.io/vcs-uri: "git@github.com:vdemeester/openshift-pipelines-samples.git"
     app.openshift.io/vcs-ref: "master"
-    app.openshift.io/connects-to: '["voting-vote","voting-result"]'
   name: voting-worker
 ---
 apiVersion: apps.openshift.io/v1
@@ -28,7 +27,6 @@ metadata:
   annotations:
     app.openshift.io/vcs-uri: "git@github.com:vdemeester/openshift-pipelines-samples.git"
     app.openshift.io/vcs-ref: "master"
-    app.openshift.io/connects-to: '["voting-vote","voting-result"]'
   name: voting-worker
 spec:
   replicas: 1

@@ -1,0 +1,142 @@
+apiVersion: v1
+items:
+- apiVersion: image.openshift.io/v1
+  generation: 0
+  image:
+    dockerImageLayers: null
+    dockerImageMetadata:
+      ContainerConfig: {}
+      Created: null
+      Id: ""
+      apiVersion: "1.0"
+      kind: DockerImage
+    dockerImageMetadataVersion: "1.0"
+    metadata:
+      creationTimestamp: null
+  kind: ImageStreamTag
+  lookupPolicy:
+    local: false
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/imported-from: image-registry.openshift-image-registry.svc:5000/openshift/redis:3.2
+    creationTimestamp: null
+    labels:
+      app: redis
+      app.kubernetes.io/component: databas
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/part-of: voting
+      app.kubernetes.io/version: "1.0"
+    name: redis:3.2
+  tag:
+    annotations: null
+    from:
+      kind: DockerImage
+      name: image-registry.openshift-image-registry.svc:5000/openshift/redis:3.2
+    generation: null
+    importPolicy: {}
+    name: "3.2"
+    referencePolicy:
+      type: ""
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      app.openshift.io/connects-to: '["voting-worker","voting-vote"]'
+    creationTimestamp: null
+    labels:
+      app: redis
+      app.kubernetes.io/component: databas
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/part-of: voting
+      app.kubernetes.io/version: "1.0"
+    name: redis
+  spec:
+    replicas: 1
+    selector:
+      app: redis
+      app.kubernetes.io/component: databas
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/part-of: voting
+      app.kubernetes.io/version: "1.0"
+      deploymentconfig: redis
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+          app.openshift.io/connects-to: '["voting-worker","voting-vote"]'
+        creationTimestamp: null
+        labels:
+          app: redis
+          app.kubernetes.io/component: databas
+          app.kubernetes.io/name: redis
+          app.kubernetes.io/part-of: voting
+          app.kubernetes.io/version: "1.0"
+          deploymentconfig: redis
+      spec:
+        containers:
+        - image: image-registry.openshift-image-registry.svc:5000/openshift/redis:3.2
+          name: redis
+          ports:
+          - containerPort: 6379
+            protocol: TCP
+          resources: {}
+          volumeMounts:
+          - mountPath: /var/lib/redis/data
+            name: redis-volume-1
+        volumes:
+        - emptyDir: {}
+          name: redis-volume-1
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - redis
+        from:
+          kind: ImageStreamTag
+          name: redis:3.2
+          namespace: openshift
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+      app.openshift.io/connects-to: '["voting-worker","voting-vote"]'
+    creationTimestamp: null
+    labels:
+      app: redis
+      app.kubernetes.io/component: databas
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/part-of: voting
+      app.kubernetes.io/version: "1.0"
+    name: redis
+  spec:
+    ports:
+    - name: 6379-tcp
+      port: 6379
+      protocol: TCP
+      targetPort: 6379
+    selector:
+      app: redis
+      app.kubernetes.io/component: databas
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/part-of: voting
+      app.kubernetes.io/version: "1.0"
+      deploymentconfig: redis
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
