@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  generateName: "kqr-build-pipelinerun-"
+spec:
+  serviceAccount: pipeline
+  pipelineRef:
+    name: kqr-build-pipeline
+  trigger:
+    type: manual
+  resources:
+  - name: samples-git
+    resourceRef:
+      name: samples-git
+  - name: qr-encode-image
+    resourceRef:
+      name: qr-encode-image
+  - name: qr-decode-image
+    resourceRef:
+      name: qr-decode-image
