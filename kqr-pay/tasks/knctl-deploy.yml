@@ -1,0 +1,34 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: knctl-deploy
+spec:
+  inputs:
+    params:
+    - name: app
+      description: Name of the app to deploy
+    resources:
+    - name: image
+      type: image
+  steps:
+  - name: debug
+    image: centos:7
+    command: ["/bin/bash"]
+    args:
+    - -c
+    - pwd; ls -la .; ls -la /builder/home; ls -la /var/run/secrets; ls -la /var/run/secrets/kubernetes.io/serviceaccount
+  - name: kubeconfig
+    image: quay.io/openshift-pipeline/openshift-cli
+    command: ["/bin/bash"]
+    args:
+    - -c
+    - mkdir -p /builder/home/.kube; /usr/local/bin/oc config view --minify > /builder/home/.kube/config
+  - name: rollout
+    image: quay.io/openshift-pipeline/knctl
+    command: ["/usr/bin/knctl"]
+    args:
+    - deploy
+    - --service
+    - ${inputs.params.app}
+    - --image
+    - ${inputs.resources.image.url}

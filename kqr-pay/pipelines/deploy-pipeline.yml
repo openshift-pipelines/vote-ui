@@ -1,0 +1,68 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: kqr-deploy-pipeline
+spec:
+  resources:
+  - name: samples-git
+    type: git
+  - name: qr-encode-image
+    type: image
+  - name: qr-decode-image
+    type: image
+  tasks:
+  - name: build-qr-encode-image
+    taskRef:
+      name: s2i-buildah
+    params:
+    - name: contextFolder
+      value: /workspace/qr-encode/
+    - name: baseImage
+      value: centos/python-36-centos7
+    - name: verifyTLS
+      value: "false"
+    resources:
+      inputs:
+      - name: workspace-git
+        resource: samples-git
+      outputs:
+      - name: image
+        resource: qr-encode-image
+  - name: deploy-qr-encode-image
+    taskRef:
+      name: knctl-deploy
+    params:
+    - name: app
+      value: qr-encode
+    resources:
+      inputs:
+      - name: image
+        resource: qr-encode-image
+        from: [build-qr-encode-image]
+  - name: build-qr-decode-image
+    taskRef:
+      name: buildah
+    params:
+    - name: contextFolder
+      value: ./qr-decode/
+    - name: verifyTLS
+      value: "false"
+    resources:
+      inputs:
+      - name: workspace-git
+        resource: samples-git
+      outputs:
+      - name: image
+        resource: qr-decode-image
+  - name: deploy-qr-decode-image
+    taskRef:
+      name: knctl-deploy
+    params:
+    - name: app
+      value: qr-decode
+    resources:
+      inputs:
+      - name: image
+        resource: qr-decode-image
+        from: [build-qr-decode-image]
