@@ -22,17 +22,6 @@ spec:
     - name: image
       type: image
   steps:
-  - name: debug
-    image: centos:7
-    command:
-    - /bin/bash
-    args:
-    - -c
-    - pwd; ls -la .; ls -la /workspace
-    workingDir: /sources
-    volumeMounts:
-    - name: generatedsources
-      mountPath: /sources
   - name: generate
     image: quay.io/openshift-pipeline/s2i-buildah:latest
     args:

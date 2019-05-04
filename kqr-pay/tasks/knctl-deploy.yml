@@ -11,12 +11,6 @@ spec:
     - name: image
       type: image
   steps:
-  - name: debug
-    image: centos:7
-    command: ["/bin/bash"]
-    args:
-    - -c
-    - pwd; ls -la .; ls -la /builder/home; ls -la /var/run/secrets; ls -la /var/run/secrets/kubernetes.io/serviceaccount
   - name: kubeconfig
     image: quay.io/openshift-pipeline/openshift-cli
     command: ["/bin/bash"]
