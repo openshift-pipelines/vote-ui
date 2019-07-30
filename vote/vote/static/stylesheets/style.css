@@ -127,3 +127,8 @@ button.b{
   width:50%;
   height:100%;
 }
+
+div#result {
+  font-size: 349%;
+  margin-top: 70px;
+}

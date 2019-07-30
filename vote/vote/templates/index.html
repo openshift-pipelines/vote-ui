@@ -21,6 +21,9 @@
         <div id="tip">
           (Tip: you can change your vote)
         </div>
+        <div id="result">
+
+        </div>
         <div id="hostname">
           Processed by container ID {{hostname}}
         </div>
@@ -37,11 +40,13 @@
         $(".a").prop('disabled', true);
         $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');
         $(".b").css('opacity','0.5');
+        $("#result").html("Voted for {{option_a}}")
       }
       if(vote == "b"){
         $(".b").prop('disabled', true);
         $(".b").html('{{option_b}} <i class="fa fa-check-circle"></i>');
         $(".a").css('opacity','0.5');
+        $("#result").html("Voted for {{option_b}}")
       }
     </script>
     {% endif %}

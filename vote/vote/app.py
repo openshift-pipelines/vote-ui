@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, make_response, g
-from redis import Redis
 import os
 import socket
 import random
@@ -13,11 +12,6 @@ hostname = socket.gethostname()
 
 app = Flask(__name__)
 
-def get_redis():
-    if not hasattr(g, 'redis'):
-        g.redis = Redis(host="redis", db=0, socket_timeout=5)
-    return g.redis
-
 @app.route("/", methods=['POST','GET'])
 def hello():
     voter_id = request.cookies.get('voter_id')
@@ -27,11 +21,9 @@ def hello():
     vote = None
 
     if request.method == 'POST':
-        redis = get_redis()
         vote = request.form['vote']
         data = json.dumps({'voter_id': voter_id, 'vote': vote})
-        redis.rpush('votes', data)
-
+        
     resp = make_response(render_template(
         'index.html',
         option_a=option_a,
