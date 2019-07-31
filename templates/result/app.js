@@ -11,8 +11,6 @@ app.controller('statsCtrl', function($scope, $http, $interval){
       r = getPercentages(d.a, d.b)
       $scope.aPercent = r.a;
       $scope.bPercent = r.b;
-      // this callback will be called asynchronously
-      // when the response is available
     }, function(response) {
       console.log("error ", response)
     });
