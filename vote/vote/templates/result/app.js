@@ -15,8 +15,6 @@ app.controller('statsCtrl', function($scope, $http, $interval){
       // when the response is available
     }, function(response) {
       console.log("error ", response)
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
     });
   }, 3000)
 });
