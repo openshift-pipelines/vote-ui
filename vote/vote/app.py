@@ -12,7 +12,7 @@ option_b = os.getenv('OPTION_B', u"🐶")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
-rest_endpoint="http://10.215.98.52:8080"
+rest_endpoint="http://10.215.98.135:8080"
 
 @app.route("/", methods=['POST','GET'])
 def hello():
