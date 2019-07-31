@@ -10,7 +10,6 @@ html,body{
   font-family: 'Open Sans';
 }
 body{
-  opacity:0;
   transition: all 1s linear;
 }
 
@@ -109,4 +108,5 @@ body{
   margin-bottom:-4px;
   width:50%;
   height:100%;
+  float: left;
 }
