@@ -7,7 +7,7 @@
     <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
     <meta name="keywords" content="docker-compose, docker, stack">
     <meta name="author" content="Docker">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='templates/result/stylesheets/style.css' />
   </head>
   <body ng-controller="statsCtrl" >
      <div id="background-stats">
@@ -21,23 +21,23 @@
         <div id="choice">
           <div class="choice cats">
             <div class="label">🐺</div>
-            <div class="stat">{{aPercent | number:1}}%</div>
+            <div class="stat">//aPercent | number:1//%</div>
           </div>
           <div class="divider"></div>
           <div class="choice dogs">
             <div class="label">🐶</div>
-            <div class="stat">{{bPercent | number:1}}%</div>
+            <div class="stat">//bPercent | number:1//%</div>
           </div>
         </div>
       </div>
     </div>
     <div id="result">
       <span ng-if="total == 0">No votes yet</span>
-      <span ng-if="total == 1">{{total}} vote</span>
-      <span ng-if="total >= 2">{{total}} votes</span>
+      <span ng-if="total == 1">//total// vote</span>
+      <span ng-if="total >= 2">//total// votes</span>
     </div>
-    <script src="socket.io.js"></script>
+    <script src="templates/result/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-    <script src="app.js"></script>
+    <script src="templates/result/app.js"></script>
   </body>
 </html>

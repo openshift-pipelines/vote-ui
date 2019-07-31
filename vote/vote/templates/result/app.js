@@ -32,8 +32,13 @@ app.controller('statsCtrl', function($scope){
     updateScores();
   };
   socket.on('message',function(data){
+    console.log("asdsads")
     init();
   });
+});
+
+app.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('//').endSymbol('//');
 });
 
 function getPercentages(a, b) {
