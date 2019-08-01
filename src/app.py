@@ -44,6 +44,7 @@ def result():
 
 @app.route("/votes", methods=['GET'])
 def votes():
+    rest_endpoint="http://" + os.environ["VOTING_API_SERVICE_HOST"] + ":" + os.environ["VOTING_API_SERVICE_PORT"]
     response = requests.get(url=rest_endpoint + "/vote")
     print(response.content)
     return response.content
