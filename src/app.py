@@ -12,10 +12,11 @@ option_b = os.getenv('OPTION_B', u"Dog 🐶")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
-rest_endpoint="http://" + os.environ["VOTING_API_SERVICE_HOST"] + ":" + os.environ["VOTING_API_SERVICE_PORT"]
+
 
 @app.route("/", methods=['POST','GET'])
 def hello():
+    rest_endpoint="http://" + os.environ["VOTING_API_SERVICE_HOST"] + ":" + os.environ["VOTING_API_SERVICE_PORT"]
     voter_id = request.cookies.get('voter_id')
     if not voter_id:
         voter_id = hex(random.getrandbits(64))[2:-1]
@@ -53,4 +54,4 @@ def send_js(path):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=9090, debug=True)
