@@ -12,7 +12,7 @@ option_b = os.getenv('OPTION_B', u"Dog 🐶")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
-rest_endpoint="http://10.215.98.135:8080"
+rest_endpoint="http://" + os.environ["VOTING_API_SERVICE_HOST"] + ":" + os.environ["VOTING_API_SERVICE_PORT"]
 
 @app.route("/", methods=['POST','GET'])
 def hello():
