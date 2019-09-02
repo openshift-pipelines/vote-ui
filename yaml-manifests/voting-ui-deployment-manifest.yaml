@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: voting-ui
+  name: voting-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voting-ui
+  template:
+    metadata:
+      labels:
+        app: voting-ui
+    spec:
+      containers:
+        - image: hriships/vote-app:1
+          name: voting-ui
+          ports:
+            - containerPort: 8080
