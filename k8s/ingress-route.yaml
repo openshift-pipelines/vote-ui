@@ -1,0 +1,15 @@
+apiVersion: contour.heptio.com/v1beta1
+kind: IngressRoute
+metadata:
+  labels:
+    app: ui
+  name: ui
+  namespace: voting
+spec:
+  virtualhost:
+    fqdn: voting.ui.local
+  routes:
+    - match: /
+      services:
+        - name: ui
+          port: 8080
