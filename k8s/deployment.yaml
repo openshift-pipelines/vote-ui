@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ui
+  name: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui
+  template:
+    metadata:
+      labels:
+        app: ui
+    spec:
+      containers:
+        - image: quay.io/sthaha/voting-ui:latest
+          name: ui
+          ports:
+            - containerPort: 8080
+            - containerPort: 9090
+          env:
+            - name: VOTING_API_SERVICE_HOST
+              value: api
+            - name: VOTING_API_SERVICE_PORT
+              value: "9000"

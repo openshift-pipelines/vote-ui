@@ -26,7 +26,7 @@ def hello():
         vote = request.form['vote']
         data = json.dumps({'voter_id': voter_id, 'vote': vote})
         requests.post(url=rest_endpoint + "/vote", data=data)
-        
+
     resp = make_response(render_template(
         'index.html',
         option_a=option_a,
@@ -55,4 +55,4 @@ def send_js(path):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=9090, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
