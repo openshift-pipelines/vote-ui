@@ -15,7 +15,7 @@ spec:
         app: ui
     spec:
       containers:
-        - image: quay.io/sthaha/voting-ui:latest
+        - image: voting-ui:latest
           name: ui
           ports:
             - containerPort: 8080
