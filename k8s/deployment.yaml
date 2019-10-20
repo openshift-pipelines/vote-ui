@@ -15,7 +15,7 @@ spec:
         app: ui
     spec:
       containers:
-        - image: voting-ui:latest
+        - image: ui:latest
           name: ui
           ports:
             - containerPort: 8080
