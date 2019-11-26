@@ -17,7 +17,7 @@ spec:
       containers:
         - image: quay.io/sthaha/voting-ui:latest
           imagePullPolicy: Always
-          name: ui
+          name: voting-ui
           ports:
             - containerPort: 8080
               protocol: TCP
