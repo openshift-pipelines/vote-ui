@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: voting-ui
-  name: voting-ui
+    app: ui
+  name: ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: voting-ui
+      app: ui
   template:
     metadata:
       labels:
-        app: voting-ui
+        app: ui
     spec:
       containers:
-        - image: quay.io/sthaha/voting-ui:latest
+        - image: quay.io/openshift-pipeline/vote-ui:latest
           imagePullPolicy: Always
-          name: voting-ui
+          name: ui
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -25,6 +25,6 @@ spec:
               protocol: TCP
           env:
             - name: VOTING_API_SERVICE_HOST
-              value: "voting-api"
+              value: "api"
             - name: VOTING_API_SERVICE_PORT
               value: "9000"
