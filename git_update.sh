@@ -1,3 +1,3 @@
 git add .
-git commit -m "just another commit"
+git commit -m "$1"
 git push origin release-tech-preview-1
