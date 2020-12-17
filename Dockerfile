@@ -1,12 +1,14 @@
 # Using official python runtime base image
-FROM quay.io/openshift-pipeline/python:3.7-alpine
+FROM registry.access.redhat.com/ubi8/ubi
+
+RUN dnf install -y python3 python3-pip
 
 # Set the application directory
 WORKDIR /app
 
 # Install our requirements.txt
 ADD requirements.txt /app/requirements.txt
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Copy our code from the current folder to /app inside the container
 ADD . /app
