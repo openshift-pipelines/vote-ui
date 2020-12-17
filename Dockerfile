@@ -1,5 +1,5 @@
 # Using official python runtime base image
-FROM python:3.7-alpine
+FROM quay.io/openshift-pipeline/python:3.7-alpine
 
 # Set the application directory
 WORKDIR /app
