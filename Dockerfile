@@ -1,16 +1,12 @@
 # Using official python runtime base image
-FROM python:3.7-alpine
-
-# Set the application directory
-WORKDIR /app
+FROM registry.access.redhat.com/ubi8/python-38
 
 # Install our requirements.txt
-ADD requirements.txt /app/requirements.txt
+ADD requirements.txt /opt/app-root/src/requirements.txt
 RUN pip install -r requirements.txt
 
 # Copy our code from the current folder to /app inside the container
-ADD . /app
-RUN chmod 0755 -R /app
+ADD . /opt/app-root/src
 
 # Make port 80 available for links and/or publish
 EXPOSE 8080
