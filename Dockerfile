@@ -1,5 +1,5 @@
 # Using official python runtime base image
-FROM registry.access.redhat.com/ubi8/python-38
+FROM image-registry.openshift-image-registry.svc:5000/openshift/python:latest
 
 # Install our requirements.txt
 ADD requirements.txt /opt/app-root/src/requirements.txt
