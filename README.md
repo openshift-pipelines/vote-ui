@@ -1,1 +1,1 @@
-# Voting app for Tekton Pipeline examples
+# This repository has moved to https://github.com/openshift/pipelines-vote-ui/
